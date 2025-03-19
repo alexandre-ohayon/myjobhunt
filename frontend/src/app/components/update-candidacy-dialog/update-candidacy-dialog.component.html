@@ -3,17 +3,17 @@
 <mat-dialog-content [formGroup]="candidacyForm">
   <mat-form-field class="w-full">
     <mat-label>Entreprise</mat-label>
-    <input matInput formControlName="entreprise">
+    <input matInput formControlName="company">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Poste</mat-label>
-    <input matInput formControlName="poste">
+    <input matInput formControlName="jobName">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Statut</mat-label>
-    <mat-select formControlName="statut">
+    <mat-select formControlName="interviewStatus">
       <mat-option value="En attente">En attente</mat-option>
       <mat-option value="Entretien prévu">Entretien prévu</mat-option>
       <mat-option value="Refusé">Refusé</mat-option>
@@ -23,12 +23,12 @@
 
   <mat-form-field class="w-full">
     <mat-label>Lien</mat-label>
-    <input matInput formControlName="lien">
+    <input matInput formControlName="jobDescriptionLink">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Recruteur</mat-label>
-    <input matInput formControlName="recruteur">
+    <input matInput formControlName="recruiterName">
   </mat-form-field>
 
   <mat-form-field class="w-full">
@@ -43,7 +43,7 @@
 
   <mat-form-field class="w-full">
     <mat-label>Numéro Entretien</mat-label>
-    <input matInput formControlName="numeroEntretien" type="number">
+    <input matInput formControlName="roundNumber" type="number">
   </mat-form-field>
 
   <mat-form-field class="w-full">

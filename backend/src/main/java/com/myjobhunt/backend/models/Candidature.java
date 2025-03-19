@@ -12,14 +12,14 @@ public class Candidature {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String entreprise;
-  private String poste;
-  private String statut;
-  private String lien;
-  private String recruteur;
+  private String company;
+  private String jobName;
+  private String interviewStatus;
+  private String jobDescriptionLink;
+  private String recruiterName;
   private String stack;
   private String dateEntretien;
-  private Integer numeroEntretien;
+  private Integer roundNumber;
   private String notes;
   private String conclusion;
 }

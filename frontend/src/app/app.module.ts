@@ -15,14 +15,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CandidatureService } from './services/candidacy.service';
-import { CandidatureDialogComponent } from './components/update-candidacy-dialog/update-candidacy-dialog.component';
+import { CandidacyService } from './services/candidacy.service';
+import { UpdateCandidacyDialogComponent } from './components/update-candidacy-dialog/update-candidacy-dialog.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CandidatureDialogComponent,
-  ],
   imports: [
     MatDialogModule,
     HttpClientModule,
@@ -42,9 +38,8 @@ import { CandidatureDialogComponent } from './components/update-candidacy-dialog
     MatIconModule,
     MatButtonModule
   ],
-  entryComponents: [CandidatureDialogComponent],
-  providers: [CandidatureService],
+  providers: [CandidacyService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }

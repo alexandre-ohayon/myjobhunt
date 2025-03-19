@@ -14,21 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { CandidacyDialogComponent } from '../../components/update-candidacy-dialog/update-candidacy-dialog.component';
-import { Candidature as CandidatureModel } from '../../models/candidature.model';
+import { UpdateCandidacyDialogComponent } from '../../components/update-candidacy-dialog/update-candidacy-dialog.component';
+import { Candidacy as CandidacyModel } from '../../models/candidacy.model';
 import { AddCandidacyDialogComponent } from '../../components/add-candidacy-dialog/add-candidacy-dialog.component';
-
-interface Candidacy {
-  id?: number;
-  entreprise: string;
-  poste: string;
-  statut: string;
-  lien?: string;
-  recruteur?: string;
-  stack?: string;
-  dateEntretien?: string;
-  numeroEntretien?: number;
-}
+import { Candidacy } from '../../models/candidacy.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,10 +39,25 @@ interface Candidacy {
   ]
 })
 export class DashboardComponent implements OnInit {
-  displayedColumns: string[] = ['entreprise', 'poste', 'statut', 'lien', 'recruteur', 'stack', 'dateEntretien', 'numeroEntretien', 'modifier', 'supprimer'];
-  dataSource = new MatTableDataSource<CandidatureModel>([]);
+  displayedColumns: string[] = [
+    'company',
+    'jobName',
+    'interviewStatus',
+    'jobDescriptionLink',
+    'recruiterName',
+    'stack',
+    'dateEntretien',
+    'roundNumber',
+    'notes',
+    'conclusion',
+    'modifier',
+    'supprimer'
+  ];  dataSource = new MatTableDataSource<CandidacyModel>([]);
 
-  constructor(private candidacyService: CandidacyService, private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private candidacyService: CandidacyService
+  ) {}
 
   ngOnInit() {
     this.loadCandidacy();
@@ -61,19 +65,19 @@ export class DashboardComponent implements OnInit {
 
   loadCandidacy() {
     this.candidacyService.getCandidacy().subscribe(
-      (data: CandidatureModel[]) => {
+      (data: CandidacyModel[]) => {
         console.log("Données reçues :", data);
 
         this.dataSource.data = data.map(c => ({
           id: c.id || 0,
-          entreprise: c.entreprise || '',
-          poste: c.poste || '',
-          statut: c.statut || '',
-          lien: c.lien ?? '',
-          recruteur: c.recruteur ?? '',
+          company: c.company || '',
+          jobName: c.jobName || '',
+          interviewStatus: c.interviewStatus || '',
+          jobDescriptionLink: c.jobDescriptionLink ?? '',
+          recruiterName: c.recruiterName ?? '',
           stack: c.stack ?? '',
           dateEntretien: c.dateEntretien ?? '',
-          numeroEntretien: c.numeroEntretien !== null && c.numeroEntretien !== undefined ? parseInt(c.numeroEntretien.toString(), 10) : 0
+          roundNumber: c.roundNumber !== null && c.roundNumber !== undefined ? parseInt(c.roundNumber.toString(), 10) : 0
         }));
 
         console.log("Données transformées :", this.dataSource.data);
@@ -84,24 +88,24 @@ export class DashboardComponent implements OnInit {
     );
 }
 
-updateCandidacy(candidacy: Candidacy) {
-  const dialogRef = this.dialog.open(CandidacyDialogComponent, {
+updateCandidacy(candidacy: Candidacy): void {
+  const dialogRef = this.dialog.open(UpdateCandidacyDialogComponent, {
     width: '500px',
-    data: { ...candidacy }
+    data: candidacy
   });
 
-  dialogRef.afterClosed().subscribe(result => {
+  dialogRef.afterClosed().subscribe((result: Candidacy) => {
     if (result) {
-      console.log("Candidature modifiée :", result);
-      this.candidacyService.updateCandidacy(candidacy.id!, result).subscribe(() => {
-        this.loadCandidacy();
-      });
+      this.candidacyService.updateCandidacy(result.id!, result)
+        .subscribe(() => {
+          this.loadCandidacy();
+        });
     }
   });
 }
 
-  deleteCandidacy(candidature: CandidatureModel) {
-    const confirmation = confirm(`Supprimer la candidature chez ${candidature.entreprise} ?`);
+  deleteCandidacy(candidature: CandidacyModel) {
+    const confirmation = confirm(`Supprimer la candidature chez ${candidature.company} ?`);
     if (confirmation) {
       this.candidacyService.deleteCandidacy(candidature.id!).subscribe(() => {
         this.loadCandidacy();
@@ -114,9 +118,9 @@ updateCandidacy(candidacy: Candidacy) {
     this.dataSource.filter = filterValue;
   }
 
-  filterByStatut(statut: string) {
-    this.dataSource.filterPredicate = (data: CandidatureModel, filter: string) => {
-      return data.statut.toLowerCase().includes(filter);
+  filterByStatus(statut: string) {
+    this.dataSource.filterPredicate = (data: CandidacyModel, filter: string) => {
+      return data.interviewStatus.toLowerCase().includes(filter);
     };
     this.dataSource.filter = statut ? statut.toLowerCase() : '';
   }

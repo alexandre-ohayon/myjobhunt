@@ -1,19 +1,20 @@
-<h1 mat-dialog-title>Ajouter une Candidature</h1>
+<h2 mat-dialog-title>Ajouter une candidature</h2>
 
 <mat-dialog-content [formGroup]="candidacyForm">
+
   <mat-form-field class="w-full">
     <mat-label>Entreprise</mat-label>
-    <input matInput formControlName="entreprise">
+    <input matInput formControlName="company">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Poste</mat-label>
-    <input matInput formControlName="poste">
+    <input matInput formControlName="jobName">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Statut</mat-label>
-    <mat-select formControlName="statut">
+    <mat-select formControlName="interviewStatus">
       <mat-option value="En attente">En attente</mat-option>
       <mat-option value="Entretien prévu">Entretien prévu</mat-option>
       <mat-option value="Refusé">Refusé</mat-option>
@@ -22,13 +23,13 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Lien</mat-label>
-    <input matInput formControlName="lien">
+    <mat-label>Lien offre</mat-label>
+    <input matInput formControlName="jobDescriptionLink">
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Recruteur</mat-label>
-    <input matInput formControlName="recruteur">
+    <mat-label>Nom du recruteur</mat-label>
+    <input matInput formControlName="recruiterName">
   </mat-form-field>
 
   <mat-form-field class="w-full">
@@ -37,17 +38,32 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Date d'entretien</mat-label>
+    <mat-label>Date entretien</mat-label>
     <input matInput type="date" formControlName="dateEntretien">
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Numéro d'entretien</mat-label>
-    <input matInput type="number" formControlName="numeroEntretien">
+    <mat-label>Numéro entretien</mat-label>
+    <input matInput type="number" formControlName="roundNumber">
   </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Notes spécifiques</mat-label>
+    <textarea matInput formControlName="notes"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Conclusion</mat-label>
+    <mat-select formControlName="conclusion">
+      <mat-option value="Refusé">Refusé</mat-option>
+      <mat-option value="Entretien 2">Entretien 2</mat-option>
+      <mat-option value="Embauché">Embauché</mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button color="warn" (click)="onCancel()">Annuler</button>
-  <button mat-raised-button color="primary" (click)="onSave()">Enregistrer</button>
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-button color="primary" (click)="onSave()">Enregistrer</button>
 </mat-dialog-actions>

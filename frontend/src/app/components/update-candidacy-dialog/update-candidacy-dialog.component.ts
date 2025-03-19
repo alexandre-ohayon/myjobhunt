@@ -1,70 +1,59 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-
-interface Candidacy {
-  id?: number;
-  entreprise: string;
-  poste: string;
-  statut: string;
-  lien?: string;
-  recruteur?: string;
-  stack?: string;
-  dateEntretien?: string;
-  numeroEntretien?: number;
-  notes?: string;
-  conclusion?: string;
-}
+import { Candidacy } from '../../models/candidacy.model';
 
 @Component({
   selector: 'app-update-candidacy-dialog',
   standalone: true,
-  templateUrl: './update-candidacy-dialog.component.html',
-  styleUrls: ['./update-candidacy-dialog.component.css'],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatOptionModule,
     MatButtonModule
-  ]
+  ],
+  templateUrl: './update-candidacy-dialog.component.html'
 })
-export class CandidacyDialogComponent {
-  candidacyForm: FormGroup;
+export class UpdateCandidacyDialogComponent implements OnInit {
+  candidacyForm!: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<CandidacyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Candidacy
-  ) {
+    public dialogRef: MatDialogRef<UpdateCandidacyDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Candidacy,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit() {
     this.candidacyForm = this.fb.group({
-      entreprise: [data.entreprise],
-      poste: [data.poste],
-      statut: [data.statut],
-      lien: [data.lien],
-      recruteur: [data.recruteur],
-      stack: [data.stack],
-      dateEntretien: [data.dateEntretien],
-      numeroEntretien: [data.numeroEntretien],
-      notes: [data.notes],
-      conclusion: [data.conclusion]
+      company: [this.data.company, Validators.required],
+      jobName: [this.data.jobName, Validators.required],
+      interviewStatus: [this.data.interviewStatus, Validators.required],
+      jobDescriptionLink: [this.data.jobDescriptionLink],
+      recruiterName: [this.data.recruiterName],
+      stack: [this.data.stack],
+      dateEntretien: [this.data.dateEntretien],
+      roundNumber: [this.data.roundNumber],
+      notes: [this.data.notes],
+      conclusion: [this.data.conclusion]
     });
   }
 
   onSave(): void {
     if (this.candidacyForm.valid) {
-      this.dialogRef.close(this.candidacyForm.value);
+      const updatedCandidacy: Candidacy = {
+        ...this.data,
+        ...this.candidacyForm.value
+      };
+      this.dialogRef.close(updatedCandidacy);
     }
   }
 
