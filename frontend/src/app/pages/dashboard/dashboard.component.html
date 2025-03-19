@@ -1,0 +1,98 @@
+<mat-card class="p-4 mb-4">
+  <h2>🔍 Rechercher une candidature</h2>
+
+  <mat-form-field class="w-full">
+    <mat-label>Rechercher</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher par entreprise ou poste">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Filtrer par statut</mat-label>
+    <mat-select (selectionChange)="filtrerParStatut($event.value)">
+      <mat-option value="">Tous</mat-option>
+      <mat-option value="En attente">En attente</mat-option>
+      <mat-option value="Entretien prévu">Entretien prévu</mat-option>
+      <mat-option value="Refusé">Refusé</mat-option>
+      <mat-option value="Offre reçue">Offre reçue</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-card>
+
+<mat-card class="p-4 mb-4">
+  <h2>➕ Ajouter une candidature</h2>
+  <button mat-raised-button color="primary" (click)="ajouterCandidature()">
+    Ajouter une candidature
+  </button>
+</mat-card>
+
+<mat-card class="p-4 mt-4">
+  <h2>📊 Suivi des Candidatures</h2>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="entreprise">
+      <th mat-header-cell *matHeaderCellDef> Entreprise </th>
+      <td mat-cell *matCellDef="let element"> {{element.entreprise}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="poste">
+      <th mat-header-cell *matHeaderCellDef> Poste </th>
+      <td mat-cell *matCellDef="let element"> {{element.poste}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="statut">
+      <th mat-header-cell *matHeaderCellDef> Statut </th>
+      <td mat-cell *matCellDef="let element"> {{element.statut}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lien">
+      <th mat-header-cell *matHeaderCellDef> Lien </th>
+      <td mat-cell *matCellDef="let element">
+        <a *ngIf="element.lien" [href]="element.lien" target="_blank">🔗 Voir</a>
+        <span *ngIf="!element.lien">-</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recruteur">
+      <th mat-header-cell *matHeaderCellDef> Recruteur </th>
+      <td mat-cell *matCellDef="let element"> {{element.recruteur}} </td>
+    </ng-container>  
+
+    <ng-container matColumnDef="stack">
+      <th mat-header-cell *matHeaderCellDef> Stack </th>
+      <td mat-cell *matCellDef="let element"> {{element.stack}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateEntretien">
+      <th mat-header-cell *matHeaderCellDef> Date Entretien </th>
+      <td mat-cell *matCellDef="let element"> {{element.dateEntretien}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="numeroEntretien">
+      <th mat-header-cell *matHeaderCellDef> Numéro Entretien </th>
+      <td mat-cell *matCellDef="let element"> {{element.numeroEntretien}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="modifier">
+      <th mat-header-cell *matHeaderCellDef> Modifier </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="modifierCandidature(element)">
+          ✏️
+        </button>
+      </td>
+    </ng-container>     
+
+    <ng-container matColumnDef="supprimer">
+      <th mat-header-cell *matHeaderCellDef> Supprimer </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="supprimerCandidature(element)">
+          🗑️
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</mat-card>

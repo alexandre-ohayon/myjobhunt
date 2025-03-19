@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Modifier la candidature</h2>
+
+<mat-dialog-content [formGroup]="candidatureForm">
+  <mat-form-field class="w-full">
+    <mat-label>Entreprise</mat-label>
+    <input matInput formControlName="entreprise">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Poste</mat-label>
+    <input matInput formControlName="poste">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="statut">
+      <mat-option value="En attente">En attente</mat-option>
+      <mat-option value="Entretien prévu">Entretien prévu</mat-option>
+      <mat-option value="Refusé">Refusé</mat-option>
+      <mat-option value="Offre reçue">Offre reçue</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Lien</mat-label>
+    <input matInput formControlName="lien">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Recruteur</mat-label>
+    <input matInput formControlName="recruteur">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Stack</mat-label>
+    <input matInput formControlName="stack">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Date Entretien</mat-label>
+    <input matInput formControlName="dateEntretien" type="date">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Numéro Entretien</mat-label>
+    <input matInput formControlName="numeroEntretien" type="number">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Notes spécifiques</mat-label>
+    <textarea matInput formControlName="notes"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Conclusion</mat-label>
+    <mat-select formControlName="conclusion">
+      <mat-option value="Refusé">Refusé</mat-option>
+      <mat-option value="Entretien 2">Entretien 2</mat-option>
+      <mat-option value="Embauché">Embauché</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Enregistrer</button>
+</mat-dialog-actions>
