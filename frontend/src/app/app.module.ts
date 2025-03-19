@@ -15,8 +15,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CandidatureService } from './services/candidature.service';
-import { CandidatureDialogComponent } from './components/candidature-dialog.component';
+import { CandidatureService } from './services/candidacy.service';
+import { CandidatureDialogComponent } from './components/update-candidacy-dialog/update-candidacy-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { CandidatureDialogComponent } from './components/candidature-dialog.comp
     MatIconModule,
     MatButtonModule
   ],
-  entryComponents: [CandidatureDialogComponent], // Important pour MatDialog
+  entryComponents: [CandidatureDialogComponent],
   providers: [CandidatureService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

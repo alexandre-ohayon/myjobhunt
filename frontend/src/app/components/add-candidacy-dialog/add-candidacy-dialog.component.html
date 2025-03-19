@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Ajouter une Candidature</h1>
+
+<mat-dialog-content [formGroup]="candidacyForm">
+  <mat-form-field class="w-full">
+    <mat-label>Entreprise</mat-label>
+    <input matInput formControlName="entreprise">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Poste</mat-label>
+    <input matInput formControlName="poste">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="statut">
+      <mat-option value="En attente">En attente</mat-option>
+      <mat-option value="Entretien prévu">Entretien prévu</mat-option>
+      <mat-option value="Refusé">Refusé</mat-option>
+      <mat-option value="Offre reçue">Offre reçue</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Lien</mat-label>
+    <input matInput formControlName="lien">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Recruteur</mat-label>
+    <input matInput formControlName="recruteur">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Stack technique</mat-label>
+    <input matInput formControlName="stack">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Date d'entretien</mat-label>
+    <input matInput type="date" formControlName="dateEntretien">
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Numéro d'entretien</mat-label>
+    <input matInput type="number" formControlName="numeroEntretien">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Enregistrer</button>
+</mat-dialog-actions>

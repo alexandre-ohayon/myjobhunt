@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 
-interface Candidature {
+interface Candidacy {
   id?: number;
   entreprise: string;
   poste: string;
@@ -19,15 +19,15 @@ interface Candidature {
   stack?: string;
   dateEntretien?: string;
   numeroEntretien?: number;
-  notes?: string; // ✅ Ajout du champ "notes"
-  conclusion?: string; // ✅ Ajout du champ "conclusion"
+  notes?: string;
+  conclusion?: string;
 }
 
 @Component({
-  selector: 'app-candidature-dialog',
+  selector: 'app-update-candidacy-dialog',
   standalone: true,
-  templateUrl: './candidature-dialog.component.html',
-  styleUrls: ['./candidature-dialog.component.css'],
+  templateUrl: './update-candidacy-dialog.component.html',
+  styleUrls: ['./update-candidacy-dialog.component.css'],
   imports: [
     CommonModule,
     FormsModule,
@@ -40,15 +40,15 @@ interface Candidature {
     MatButtonModule
   ]
 })
-export class CandidatureDialogComponent {
-  candidatureForm: FormGroup;
+export class CandidacyDialogComponent {
+  candidacyForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<CandidatureDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Candidature
+    public dialogRef: MatDialogRef<CandidacyDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Candidacy
   ) {
-    this.candidatureForm = this.fb.group({
+    this.candidacyForm = this.fb.group({
       entreprise: [data.entreprise],
       poste: [data.poste],
       statut: [data.statut],
@@ -57,14 +57,14 @@ export class CandidatureDialogComponent {
       stack: [data.stack],
       dateEntretien: [data.dateEntretien],
       numeroEntretien: [data.numeroEntretien],
-      notes: [data.notes], // ✅ Correction pour éviter l'erreur TS2339
-      conclusion: [data.conclusion] // ✅ Correction pour éviter l'erreur TS2339
+      notes: [data.notes],
+      conclusion: [data.conclusion]
     });
   }
 
   onSave(): void {
-    if (this.candidatureForm.valid) {
-      this.dialogRef.close(this.candidatureForm.value);
+    if (this.candidacyForm.valid) {
+      this.dialogRef.close(this.candidacyForm.value);
     }
   }
 

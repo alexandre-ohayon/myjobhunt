@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { CandidatureService } from '../../services/candidature.service';
+import { CandidacyService } from '../../services/candidacy.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -14,11 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { CandidatureDialogComponent } from '../../components/candidature-dialog.component';
-import { Candidature as CandidatureModel } from '../../models/candidature.model'; // ✅ Renomme ici
+import { CandidacyDialogComponent } from '../../components/update-candidacy-dialog/update-candidacy-dialog.component';
+import { Candidature as CandidatureModel } from '../../models/candidature.model';
+import { AddCandidacyDialogComponent } from '../../components/add-candidacy-dialog/add-candidacy-dialog.component';
 
-
-interface Candidature {
+interface Candidacy {
   id?: number;
   entreprise: string;
   poste: string;
@@ -37,7 +37,6 @@ interface Candidature {
   styleUrls: ['./dashboard.component.css'],
   imports: [
     HttpClientModule,
-    CandidatureDialogComponent,
     MatCardModule,
     MatTableModule,
     MatFormFieldModule,
@@ -47,23 +46,23 @@ interface Candidature {
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    CommonModule
+    CommonModule,
   ]
 })
 export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['entreprise', 'poste', 'statut', 'lien', 'recruteur', 'stack', 'dateEntretien', 'numeroEntretien', 'modifier', 'supprimer'];
   dataSource = new MatTableDataSource<CandidatureModel>([]);
 
-  constructor(private candidatureService: CandidatureService, private dialog: MatDialog) {}
+  constructor(private candidacyService: CandidacyService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.chargerCandidatures();
+    this.loadCandidacy();
   }
 
-  chargerCandidatures() {
-    this.candidatureService.getCandidatures().subscribe(
+  loadCandidacy() {
+    this.candidacyService.getCandidacy().subscribe(
       (data: CandidatureModel[]) => {
-        console.log("Données reçues :", data); // Vérifie le contenu des données récupérées
+        console.log("Données reçues :", data);
 
         this.dataSource.data = data.map(c => ({
           id: c.id || 0,
@@ -72,7 +71,7 @@ export class DashboardComponent implements OnInit {
           statut: c.statut || '',
           lien: c.lien ?? '',
           recruteur: c.recruteur ?? '',
-          stack: c.stack ?? '', // Vérifie si stack existe dans les données
+          stack: c.stack ?? '',
           dateEntretien: c.dateEntretien ?? '',
           numeroEntretien: c.numeroEntretien !== null && c.numeroEntretien !== undefined ? parseInt(c.numeroEntretien.toString(), 10) : 0
         }));
@@ -85,56 +84,27 @@ export class DashboardComponent implements OnInit {
     );
 }
 
-modifierCandidature(candidature: Candidature) {
-  const dialogRef = this.dialog.open(CandidatureDialogComponent, {
+updateCandidacy(candidacy: Candidacy) {
+  const dialogRef = this.dialog.open(CandidacyDialogComponent, {
     width: '500px',
-    data: { ...candidature } // ✅ Envoie les données actuelles à la modal
+    data: { ...candidacy }
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      console.log("Candidature modifiée :", result); // ✅ Vérifier dans la console
-      this.candidatureService.modifierCandidature(candidature.id!, result).subscribe(() => {
-        this.chargerCandidatures(); // ✅ Recharge les données après modification
+      console.log("Candidature modifiée :", result);
+      this.candidacyService.updateCandidacy(candidacy.id!, result).subscribe(() => {
+        this.loadCandidacy();
       });
     }
   });
 }
 
-
-  // modifierCandidature(candidature: Candidature) {
-  //   const updatedEntreprise = prompt("Modifier l'entreprise :", candidature.entreprise);
-  //   const updatedPoste = prompt("Modifier le poste :", candidature.poste);
-  //   const updatedStatut = prompt("Modifier le statut :", candidature.statut);
-  //   const updatedLien = prompt("Modifier le lien :", candidature.lien || '');
-  //   const updatedRecruteur = prompt("Modifier le recruteur :", candidature.recruteur || '');
-  //   const updatedStack = prompt("Modifier la stack technique :", candidature.stack || '');
-  //   const updatedDateEntretien = prompt("Modifier la date de l'entretien :", candidature.dateEntretien || '');
-  //   const updatedNumeroEntretien = prompt("Modifier le numéro de l'entretien :", candidature.numeroEntretien?.toString() || '');
-
-  //   if (updatedEntreprise !== null && updatedPoste !== null && updatedStatut !== null) {
-  //     const updatedCandidature: Candidature = {
-  //       ...candidature,
-  //       entreprise: updatedEntreprise,
-  //       poste: updatedPoste,
-  //       statut: updatedStatut,
-  //       lien: updatedLien || '',
-  //       recruteur: updatedRecruteur || '',
-  //       stack: updatedStack || '',
-  //       dateEntretien: updatedDateEntretien || '',
-  //       numeroEntretien: updatedNumeroEntretien ? parseInt(updatedNumeroEntretien, 10) : undefined
-  //     };
-  //     this.candidatureService.modifierCandidature(candidature.id!, updatedCandidature).subscribe(() => {
-  //       this.chargerCandidatures();
-  //     });
-  //   }
-  // }
-
-  supprimerCandidature(candidature: CandidatureModel) {
+  deleteCandidacy(candidature: CandidatureModel) {
     const confirmation = confirm(`Supprimer la candidature chez ${candidature.entreprise} ?`);
     if (confirmation) {
-      this.candidatureService.supprimerCandidature(candidature.id!).subscribe(() => {
-        this.chargerCandidatures();
+      this.candidacyService.deleteCandidacy(candidature.id!).subscribe(() => {
+        this.loadCandidacy();
       });
     }
   }
@@ -144,43 +114,24 @@ modifierCandidature(candidature: Candidature) {
     this.dataSource.filter = filterValue;
   }
 
-  filtrerParStatut(statut: string) {
+  filterByStatut(statut: string) {
     this.dataSource.filterPredicate = (data: CandidatureModel, filter: string) => {
       return data.statut.toLowerCase().includes(filter);
     };
     this.dataSource.filter = statut ? statut.toLowerCase() : '';
   }
 
-  ajouterCandidature() {
-    const entreprise = prompt("Entreprise :")?.trim();
-    const poste = prompt("Poste :")?.trim();
-    const statut = prompt("Statut :")?.trim();
-    const lien = prompt("Lien de la candidature :")?.trim();
-    const recruteur = prompt("Nom du recruteur :")?.trim();
-    const stack = prompt("Stack technique :")?.trim();
-    const dateEntretien = prompt("Date de l'entretien (YYYY-MM-DD) :")?.trim();
-    const numeroEntretienStr = prompt("Numéro de l'entretien :")?.trim();
-
-    if (entreprise && poste && statut) {
-        const nouvelleCandidature: CandidatureModel = {
-            entreprise,
-            poste,
-            statut,
-            lien: lien && lien !== '' ? lien : undefined,
-            recruteur: recruteur && recruteur !== '' ? recruteur : undefined,
-            stack: stack && stack !== '' ? stack : undefined,
-            dateEntretien: dateEntretien && dateEntretien !== '' ? dateEntretien : undefined,
-            numeroEntretien: numeroEntretienStr ? parseInt(numeroEntretienStr, 10) : undefined
-        };
-
-        this.candidatureService.ajouterCandidature(nouvelleCandidature).subscribe(() => {
-            this.chargerCandidatures();
-        }, error => {
-            console.error("Erreur lors de l'ajout de la candidature :", error);
+  addCandidacy() {
+    const dialogRef = this.dialog.open(AddCandidacyDialogComponent, {
+      width: '500px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.candidacyService.createCandidacy(result).subscribe(() => {
+          this.loadCandidacy();
         });
-    } else {
-        alert("Entreprise, poste et statut sont obligatoires !");
-    }
-}
-
+      }
+    });
+  }
 }

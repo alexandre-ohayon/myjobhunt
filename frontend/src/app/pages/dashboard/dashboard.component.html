@@ -8,7 +8,7 @@
 
   <mat-form-field class="w-full">
     <mat-label>Filtrer par statut</mat-label>
-    <mat-select (selectionChange)="filtrerParStatut($event.value)">
+    <mat-select (selectionChange)="filterByStatut($event.value)">
       <mat-option value="">Tous</mat-option>
       <mat-option value="En attente">En attente</mat-option>
       <mat-option value="Entretien prévu">Entretien prévu</mat-option>
@@ -20,7 +20,7 @@
 
 <mat-card class="p-4 mb-4">
   <h2>➕ Ajouter une candidature</h2>
-  <button mat-raised-button color="primary" (click)="ajouterCandidature()">
+  <button mat-raised-button color="primary" (click)="addCandidacy()">
     Ajouter une candidature
   </button>
 </mat-card>
@@ -76,7 +76,7 @@
     <ng-container matColumnDef="modifier">
       <th mat-header-cell *matHeaderCellDef> Modifier </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" (click)="modifierCandidature(element)">
+        <button mat-icon-button color="primary" (click)="updateCandidacy(element)">
           ✏️
         </button>
       </td>
@@ -85,7 +85,7 @@
     <ng-container matColumnDef="supprimer">
       <th mat-header-cell *matHeaderCellDef> Supprimer </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="warn" (click)="supprimerCandidature(element)">
+        <button mat-icon-button color="warn" (click)="deleteCandidacy(element)">
           🗑️
         </button>
       </td>
