@@ -1,67 +1,58 @@
-<h2 mat-dialog-title>Modifier la candidature</h2>
+<h2 mat-dialog-title class="text-xl font-semibold mb-4">✏️ Modifier la candidature</h2>
 
-<mat-dialog-content [formGroup]="candidacyForm">
-  <mat-form-field class="w-full">
+<mat-dialog-content [formGroup]="candidacyForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+  <mat-form-field appearance="fill">
     <mat-label>Entreprise</mat-label>
     <input matInput formControlName="company">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Poste</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Intitulé du poste</mat-label>
     <input matInput formControlName="jobName">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
+  <mat-form-field appearance="fill">
     <mat-label>Statut</mat-label>
     <mat-select formControlName="interviewStatus">
-      <mat-option value="En attente">En attente</mat-option>
-      <mat-option value="Entretien prévu">Entretien prévu</mat-option>
+      <mat-option value="En attente d'une réponse">En attente d'une réponse</mat-option>
+      <mat-option value="Premier entretien prévu">Premier round</mat-option>
+      <mat-option value="Deuxième entretien prévu">Deuxième round</mat-option>
+      <mat-option value="Troisième entretien prévu">Troisième round</mat-option>
+      <mat-option value="Quatrième entretien prévu">Quatrième round</mat-option>
       <mat-option value="Refusé">Refusé</mat-option>
       <mat-option value="Offre reçue">Offre reçue</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Lien</mat-label>
-    <input matInput formControlName="jobDescriptionLink">
+  <mat-form-field appearance="fill">
+    <mat-label>Date de l'entretien</mat-label>
+    <input matInput formControlName="interviewDate" type="date">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
+  <mat-form-field appearance="fill">
     <mat-label>Recruteur</mat-label>
     <input matInput formControlName="recruiterName">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Stack</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>Stack technique</mat-label>
     <input matInput formControlName="stack">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Date Entretien</mat-label>
-    <input matInput formControlName="dateEntretien" type="date">
+  <mat-form-field appearance="fill">
+    <mat-label>Lien de l'offre</mat-label>
+    <input matInput formControlName="jobDescriptionLink">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Numéro Entretien</mat-label>
-    <input matInput formControlName="roundNumber" type="number">
-  </mat-form-field>
-
-  <mat-form-field class="w-full">
+  <mat-form-field appearance="fill" class="md:col-span-2">
     <mat-label>Notes spécifiques</mat-label>
     <textarea matInput formControlName="notes"></textarea>
   </mat-form-field>
 
-  <mat-form-field class="w-full">
-    <mat-label>Conclusion</mat-label>
-    <mat-select formControlName="conclusion">
-      <mat-option value="Refusé">Refusé</mat-option>
-      <mat-option value="Entretien 2">Entretien 2</mat-option>
-      <mat-option value="Embauché">Embauché</mat-option>
-    </mat-select>
-  </mat-form-field>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" class="mt-4">
   <button mat-button (click)="onCancel()">Annuler</button>
   <button mat-raised-button color="primary" (click)="onSave()">Enregistrer</button>
 </mat-dialog-actions>

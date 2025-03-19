@@ -46,18 +46,14 @@ export class DashboardComponent implements OnInit {
     'jobDescriptionLink',
     'recruiterName',
     'stack',
-    'dateEntretien',
-    'roundNumber',
+    'interviewDate',
     'notes',
-    'conclusion',
     'modifier',
     'supprimer'
   ];  dataSource = new MatTableDataSource<CandidacyModel>([]);
 
-  constructor(
-    private dialog: MatDialog,
-    private candidacyService: CandidacyService
-  ) {}
+  constructor(private dialog: MatDialog, private candidacyService: CandidacyService) {}
+
 
   ngOnInit() {
     this.loadCandidacy();
@@ -76,8 +72,7 @@ export class DashboardComponent implements OnInit {
           jobDescriptionLink: c.jobDescriptionLink ?? '',
           recruiterName: c.recruiterName ?? '',
           stack: c.stack ?? '',
-          dateEntretien: c.dateEntretien ?? '',
-          roundNumber: c.roundNumber !== null && c.roundNumber !== undefined ? parseInt(c.roundNumber.toString(), 10) : 0
+          interviewDate: c.interviewDate ?? '',
         }));
 
         console.log("Données transformées :", this.dataSource.data);
@@ -114,16 +109,22 @@ updateCandidacy(candidacy: Candidacy): void {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+    const filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      return data.interviewStatus.some(status =>
+        status.toLowerCase().includes(filter)
+      );
+    };
+    this.dataSource.filter = filter;
   }
+  
 
   filterByStatus(statut: string) {
     this.dataSource.filterPredicate = (data: CandidacyModel, filter: string) => {
-      return data.interviewStatus.toLowerCase().includes(filter);
+      return data.interviewStatus.some(status => status.toLowerCase().includes(filter));
     };
     this.dataSource.filter = statut ? statut.toLowerCase() : '';
-  }
+  }  
 
   addCandidacy() {
     const dialogRef = this.dialog.open(AddCandidacyDialogComponent, {

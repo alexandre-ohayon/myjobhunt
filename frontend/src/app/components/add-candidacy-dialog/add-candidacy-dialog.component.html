@@ -8,22 +8,25 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Poste</mat-label>
+    <mat-label>Intitulé du poste</mat-label>
     <input matInput formControlName="jobName">
   </mat-form-field>
 
-  <mat-form-field class="w-full">
+  <mat-form-field appearance="fill">
     <mat-label>Statut</mat-label>
     <mat-select formControlName="interviewStatus">
-      <mat-option value="En attente">En attente</mat-option>
-      <mat-option value="Entretien prévu">Entretien prévu</mat-option>
+      <mat-option value="En attente d'une réponse">En attente d'une réponse</mat-option>
+      <mat-option value="Premier entretien prévu">Premier round</mat-option>
+      <mat-option value="Deuxième entretien prévu">Deuxième round</mat-option>
+      <mat-option value="Troisième entretien prévu">Troisième round</mat-option>
+      <mat-option value="Quatrième entretien prévu">Quatrième round</mat-option>
       <mat-option value="Refusé">Refusé</mat-option>
       <mat-option value="Offre reçue">Offre reçue</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Lien offre</mat-label>
+    <mat-label>Lien de l'offre</mat-label>
     <input matInput formControlName="jobDescriptionLink">
   </mat-form-field>
 
@@ -38,27 +41,13 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Date entretien</mat-label>
-    <input matInput type="date" formControlName="dateEntretien">
-  </mat-form-field>
-
-  <mat-form-field class="w-full">
-    <mat-label>Numéro entretien</mat-label>
-    <input matInput type="number" formControlName="roundNumber">
+    <mat-label>Date de l'entretien</mat-label>
+    <input matInput type="date" formControlName="interviewDate">
   </mat-form-field>
 
   <mat-form-field class="w-full">
     <mat-label>Notes spécifiques</mat-label>
     <textarea matInput formControlName="notes"></textarea>
-  </mat-form-field>
-
-  <mat-form-field class="w-full">
-    <mat-label>Conclusion</mat-label>
-    <mat-select formControlName="conclusion">
-      <mat-option value="Refusé">Refusé</mat-option>
-      <mat-option value="Entretien 2">Entretien 2</mat-option>
-      <mat-option value="Embauché">Embauché</mat-option>
-    </mat-select>
   </mat-form-field>
 
 </mat-dialog-content>

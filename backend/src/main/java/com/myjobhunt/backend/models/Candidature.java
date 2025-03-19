@@ -18,9 +18,7 @@ public class Candidature {
   private String jobDescriptionLink;
   private String recruiterName;
   private String stack;
-  private String dateEntretien;
-  private Integer roundNumber;
+  private String interviewDate;
   private String notes;
-  private String conclusion;
 }
 

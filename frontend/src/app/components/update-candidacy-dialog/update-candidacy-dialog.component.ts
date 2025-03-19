@@ -40,10 +40,8 @@ export class UpdateCandidacyDialogComponent implements OnInit {
       jobDescriptionLink: [this.data.jobDescriptionLink],
       recruiterName: [this.data.recruiterName],
       stack: [this.data.stack],
-      dateEntretien: [this.data.dateEntretien],
-      roundNumber: [this.data.roundNumber],
+      interviewDate: [this.data.interviewDate],
       notes: [this.data.notes],
-      conclusion: [this.data.conclusion]
     });
   }
 
