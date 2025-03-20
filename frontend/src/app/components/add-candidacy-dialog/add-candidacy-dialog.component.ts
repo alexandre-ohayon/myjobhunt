@@ -30,11 +30,12 @@ export class AddCandidacyDialogComponent implements AfterViewInit {
   ) {
     this.candidacyForm = this.fb.group({
       company: ['', Validators.required],
-      jobName: ['', Validators.required],
-      interviewStatus: [''],
+      jobTitle: ['', Validators.required],
+      // Initialisation en tant que tableau avec une valeur par défaut
+      interviewStatus: [['En attente d\'une réponse'], Validators.required],
       jobDescriptionLink: ['', Validators.required],
       recruiterName: [''],
-      stack: [''],
+      techStack: [''],
       interviewDate: [''],
       notes: [''],
     });

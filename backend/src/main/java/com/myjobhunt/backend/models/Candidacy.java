@@ -1,24 +1,25 @@
 package com.myjobhunt.backend.models;
+
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
-@Table(name = "candidatures")
-@Getter
-@Setter
-public class Candidature {
+@Table(name = "candidacies")
+@Data
+public class Candidacy {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String company;
-  private String jobName;
-  private String interviewStatus;
+  private String jobTitle;
+  @ElementCollection
+  private List<String> interviewStatus;
   private String jobDescriptionLink;
   private String recruiterName;
-  private String stack;
+  private String techStack;
   private String interviewDate;
   private String notes;
 }
-

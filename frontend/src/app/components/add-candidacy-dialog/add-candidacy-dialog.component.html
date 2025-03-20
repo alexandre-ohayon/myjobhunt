@@ -9,12 +9,12 @@
 
   <mat-form-field class="w-full">
     <mat-label>Intitulé du poste</mat-label>
-    <input matInput formControlName="jobName">
+    <input matInput formControlName="jobTitle">
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="w-full">
     <mat-label>Statut</mat-label>
-    <mat-select formControlName="interviewStatus">
+    <mat-select formControlName="interviewStatus" multiple>
       <mat-option value="En attente d'une réponse">En attente d'une réponse</mat-option>
       <mat-option value="Premier entretien prévu">Premier round</mat-option>
       <mat-option value="Deuxième entretien prévu">Deuxième round</mat-option>
@@ -37,7 +37,7 @@
 
   <mat-form-field class="w-full">
     <mat-label>Stack technique</mat-label>
-    <input matInput formControlName="stack">
+    <input matInput formControlName="techStack">
   </mat-form-field>
 
   <mat-form-field class="w-full">

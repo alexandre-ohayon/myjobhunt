@@ -41,19 +41,19 @@ import { Candidacy } from '../../models/candidacy.model';
 export class DashboardComponent implements OnInit {
   displayedColumns: string[] = [
     'company',
-    'jobName',
+    'jobTitle',          // Remplacement de 'jobName' par 'jobTitle'
     'interviewStatus',
     'jobDescriptionLink',
     'recruiterName',
-    'stack',
+    'techStack',         // Remplacement de 'stack' par 'techStack'
     'interviewDate',
-    'notes',
+    'notes',             // Ajout de notes
     'modifier',
     'supprimer'
-  ];  dataSource = new MatTableDataSource<CandidacyModel>([]);
+  ];
+  dataSource = new MatTableDataSource<CandidacyModel>([]);
 
   constructor(private dialog: MatDialog, private candidacyService: CandidacyService) {}
-
 
   ngOnInit() {
     this.loadCandidacy();
@@ -63,41 +63,44 @@ export class DashboardComponent implements OnInit {
     this.candidacyService.getCandidacy().subscribe(
       (data: CandidacyModel[]) => {
         console.log("Données reçues :", data);
-
+  
         this.dataSource.data = data.map(c => ({
           id: c.id || 0,
           company: c.company || '',
-          jobName: c.jobName || '',
-          interviewStatus: c.interviewStatus || '',
+          jobTitle: c.jobTitle || '',
+          interviewStatus: Array.isArray(c.interviewStatus)
+            ? c.interviewStatus 
+            : (c.interviewStatus ? [c.interviewStatus] : ['En attente d\'une réponse']),
           jobDescriptionLink: c.jobDescriptionLink ?? '',
           recruiterName: c.recruiterName ?? '',
-          stack: c.stack ?? '',
+          techStack: c.techStack ?? '',
           interviewDate: c.interviewDate ?? '',
+          notes: c.notes ?? ''
         }));
-
+  
         console.log("Données transformées :", this.dataSource.data);
       },
       (error) => {
         console.error('Erreur lors du chargement des candidatures:', error);
       }
     );
-}
+  }
 
-updateCandidacy(candidacy: Candidacy): void {
-  const dialogRef = this.dialog.open(UpdateCandidacyDialogComponent, {
-    width: '500px',
-    data: candidacy
-  });
+  updateCandidacy(candidacy: Candidacy): void {
+    const dialogRef = this.dialog.open(UpdateCandidacyDialogComponent, {
+      width: '500px',
+      data: candidacy
+    });
 
-  dialogRef.afterClosed().subscribe((result: Candidacy) => {
-    if (result) {
-      this.candidacyService.updateCandidacy(result.id!, result)
-        .subscribe(() => {
-          this.loadCandidacy();
-        });
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe((result: Candidacy) => {
+      if (result) {
+        this.candidacyService.updateCandidacy(result.id!, result)
+          .subscribe(() => {
+            this.loadCandidacy();
+          });
+      }
+    });
+  }
 
   deleteCandidacy(candidature: CandidacyModel) {
     const confirmation = confirm(`Supprimer la candidature chez ${candidature.company} ?`);
@@ -118,7 +121,6 @@ updateCandidacy(candidacy: Candidacy): void {
     this.dataSource.filter = filter;
   }
   
-
   filterByStatus(statut: string) {
     this.dataSource.filterPredicate = (data: CandidacyModel, filter: string) => {
       return data.interviewStatus.some(status => status.toLowerCase().includes(filter));
@@ -138,5 +140,10 @@ updateCandidacy(candidacy: Candidacy): void {
         });
       }
     });
+  }
+
+  getJobDescriptionLink(link: string): string {
+    if (!link) return '';
+    return link.startsWith('http://') || link.startsWith('https://') ? link : `http://${link}`;
   }
 }

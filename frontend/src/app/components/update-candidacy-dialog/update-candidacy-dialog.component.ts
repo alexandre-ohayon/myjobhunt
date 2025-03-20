@@ -35,11 +35,11 @@ export class UpdateCandidacyDialogComponent implements OnInit {
   ngOnInit() {
     this.candidacyForm = this.fb.group({
       company: [this.data.company, Validators.required],
-      jobName: [this.data.jobName, Validators.required],
+      jobTitle: [this.data.jobTitle, Validators.required],   // Remplacement de 'jobName' par 'jobTitle'
       interviewStatus: [this.data.interviewStatus, Validators.required],
       jobDescriptionLink: [this.data.jobDescriptionLink],
       recruiterName: [this.data.recruiterName],
-      stack: [this.data.stack],
+      techStack: [this.data.techStack],                         // Remplacement de 'stack' par 'techStack'
       interviewDate: [this.data.interviewDate],
       notes: [this.data.notes],
     });

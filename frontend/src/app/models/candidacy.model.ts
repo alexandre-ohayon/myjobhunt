@@ -1,12 +1,11 @@
 export interface Candidacy {
   id?: number;
   company: string;
-  jobName: string;
-  interviewStatus: string[];  // <- Changement ici pour un tableau
+  jobTitle: string;            // Changement de 'jobName' à 'jobTitle'
+  interviewStatus: string[];   // Tableau de statuts
   jobDescriptionLink?: string;
   recruiterName?: string;
-  stack?: string;
+  techStack?: string;          // Changement de 'stack' à 'techStack'
   interviewDate?: string;
   notes?: string;
 }
-  
